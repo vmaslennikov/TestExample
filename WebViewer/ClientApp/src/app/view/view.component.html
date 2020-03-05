@@ -43,7 +43,7 @@
         >
       </mat-paginator>
     </div>
-    <div class='page-viewer-bottom d-flex d-flex-row d-flex-wrap d-flex-justify-content-space-between'>
+    <div #pageviewerbottom class='page-viewer-bottom d-flex d-flex-row d-flex-wrap d-flex-justify-content-space-between'>
         <mat-card
           *ngFor="let item of dsSelected"
           [ngClass]="item.selected?'selected d-flex d-flex-column w-max-2':'d-flex d-flex-column w-max-2'"
@@ -51,7 +51,10 @@
           <div class="d-flex d-flex-row d-flex-wrap d-flex-justify-content-center">
             <img
               mat-card-image
-              src="/api/images/thumbnail?file={{item.path}}&quality=50&size=400" alt="{{item.name}}">
+              src="/api/images/thumbnail?file={{item.path}}&quality=50&size=400"
+              alt="{{item.name}}"
+              [ngStyle]="{'width':item.width}"
+              >
             </div>
             <mat-card-content>
               <p>{{item.name}}</p>

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { ImageFile } from './../shared/models/image-file';
 import { Folder } from './../shared/models/folder';
 import { ImagesService } from './../shared/services/images.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
@@ -33,6 +33,8 @@ interface FlatNode {
 })
 export class ViewComponent implements OnInit {
   constructor(private imagesService: ImagesService) {}
+
+  @ViewChild('pageviewerbottom', {static: false}) elementView: ElementRef;
 
   dsFolders: Folder[] = [];
   dsFiles: ImageFile[] = [];
@@ -86,6 +88,19 @@ export class ViewComponent implements OnInit {
     this.updateFolders(null);
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.updateImageWidth();
+  }
+
+  updateImageWidth() {
+    if (this.dsSelected.length > 0) {
+      const dimension = this.elementView.nativeElement.getBoundingClientRect();
+      this.dsSelected.forEach(i => (i['width'] = (parseInt(dimension.width * 0.35, 10) + 'px')));
+    }
+  }
+
+
   toggleSelect(file) {
     if (file) {
       const selected = this.dsSelected.filter(o => o.path === file.path);
@@ -100,6 +115,7 @@ export class ViewComponent implements OnInit {
         file['selected'] = true;
         this.dsSelected.push(copy);
       }
+      this.updateImageWidth();
     }
   }
 
@@ -121,7 +137,6 @@ export class ViewComponent implements OnInit {
 
   updateFolders(f) {
     this.imagesService.getFolders(null).subscribe((data: Folder[]) => {
-      // console.log(JSON.stringify(data));
       this.dsFolders.length = 0;
       data.forEach((o: Folder) => {
         this.dsFolders.push(o);
@@ -141,21 +156,17 @@ export class ViewComponent implements OnInit {
     });
   }
 
-  unselectFolders(o) {
-    o['selected'] = false;
-    if (o.children) {
-      o.children.forEach(element => {
-        this.unselectFolders(element);
-      });
-    }
-  }
-
   updateFiles(f) {
     if (!f) {
       return;
     }
     this.dsSelected.length = 0;
+    if (this.currentFolder) {
+      this.currentFolder['selected'] = false;
+    }
     this.currentFolder = f;
+    this.currentFolder['selected'] = true;
+
     this.imagesService.getFiles(f.path).subscribe((data: ImageFile[]) => {
       // console.log(JSON.stringify(data));
       this.dsFiles.length = 0;
