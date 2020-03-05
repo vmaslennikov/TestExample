@@ -96,7 +96,7 @@ export class ViewComponent implements OnInit {
   updateImageWidth() {
     if (this.dsSelected.length > 0) {
       const dimension = this.elementView.nativeElement.getBoundingClientRect();
-      this.dsSelected.forEach(i => (i['width'] = (parseInt(dimension.width * 0.35, 10) + 'px')));
+      this.dsSelected.forEach(i => (i['width'] = (dimension.width * 0.35 + 'px')));
     }
   }
 
