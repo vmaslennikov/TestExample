@@ -1,0 +1,66 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.d-flex{ display: flex;}
+.d-flex-wrap{ flex-wrap: wrap; }
+.d-flex-row{ flex-direction: row;}
+.d-flex-column{ flex-direction: column;}
+.d-flex-justify-content-center{ justify-content: center;}
+.d-flex-justify-content-space-between{ justify-content: space-between;}
+.d-flex-align-items-center{ align-items:center;}
+.d-flex-align-items-justify{ align-items:justify;}
+.d-flex-align-items-stretch{ align-items:stretch;}
+.mat-card-image{width: 35%;}
+.w-max-2{width: calc(50% - 34px);}
+.selected{border:1px solid red;}
+
+.page-tree,.page-viewer-top,.page-viewer-bottom{border:1px solid #000;}
+
+@media (max-width: 600px) {
+  .d-flex{ display: flex;flex-direction: column;}
+  .page-viewer-bottom{
+    flex-basis: 100%;
+  }
+  .page-viewer-bottom mat-card{
+    flex-basis: 100%;
+    width: 100% ;
+  }
+  .w-max-2{width: calc(100% - 34px);}
+}
+
+@media (min-width: 601px){
+  .page-tree{
+    min-width: 25%;
+  }
+  .page-viewer{
+    min-width: 75%;
+  }
+  .page-viewer-bottom mat-card{
+    /* flex-basis: 45%;
+    width: 50% ;
+    margin: 10px; */
+  }
+  .w-max-30{width: calc(50% - 34px);}
+}
+@media (min-width: 1020px){
+  .w-max-30{width: calc(30% - 34px);}
+}

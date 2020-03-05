@@ -1,0 +1,17 @@
+/* div{
+  min-height: 30px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+}
+div.page-viewer-top mat-card{
+}
+div.page-viewer-bottom > div{
+  column-count: 2;
+}
+.mat-tree-node:hover{
+  background-color: #eee;
+  cursor: pointer;
+}
+.mat-tree-node.active{
+  background-color: lightgrey;
+} */

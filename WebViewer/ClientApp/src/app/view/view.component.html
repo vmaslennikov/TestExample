@@ -1,0 +1,62 @@
+<div class="d-flex d-flex-row">
+  <div class="page-tree">
+    <mat-tree [dataSource]="tree" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding (click)="updateFiles(node)" [ngClass]="node.selected?'active':''">
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        {{node.name}}
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding (click)="updateFiles(node)" [ngClass]="node.selected?'active':''">
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        {{node.name}}
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+  <div class="page-viewer d-flex d-flex-column">
+    <div class='page-viewer-top d-flex d-flex-column'>
+      <div class="d-flex d-flex-row d-flex-wrap d-flex-justify-content-space-between">
+        <mat-card
+          *ngFor="let item of dsFilesByPage"
+          [ngClass]="item.selected?'selected w-max-30':'w-max-30'"
+          (click)="toggleSelect(item)">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+              <img
+                src='/api/images/thumbnail?file={{item.path}}&quality=50&size=50' />
+            </div>
+            <mat-card-title>{{item.name}}</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+      </div>
+      <mat-paginator
+        *ngIf="dsFilesByPage.length>0"
+        class="d-flex d-flex-column d-flex-align-items-center"
+        [length]="length"
+        [pageSize]="pageSize"
+        (page)="pageEvent = $event; onPaginateChange($event)"
+        >
+      </mat-paginator>
+    </div>
+    <div class='page-viewer-bottom d-flex d-flex-row d-flex-wrap d-flex-justify-content-space-between'>
+        <mat-card
+          *ngFor="let item of dsSelected"
+          [ngClass]="item.selected?'selected d-flex d-flex-column w-max-2':'d-flex d-flex-column w-max-2'"
+          (click)="setBorder(item)">
+          <div class="d-flex d-flex-row d-flex-wrap d-flex-justify-content-center">
+            <img
+              mat-card-image
+              src="/api/images/thumbnail?file={{item.path}}&quality=50&size=400" alt="{{item.name}}">
+            </div>
+            <mat-card-content>
+              <p>{{item.name}}</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+  </div>
+</div>
